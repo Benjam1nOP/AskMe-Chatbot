@@ -1,9 +1,10 @@
-const express = require('express');
-const app = express();
+const express = require('express'); //getting the express module
+const app = express(); //creating the app
 
-app.get('/', (req, res) => {
-   res.send({'hello': 'there'})
-});
+// request and response
+app.get('/', (req, res) => {    //route handling using express
+   res.send({'hello': 'there'}) //route handler for get request for the home page so / 
+}); //
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; //dynamic port binding for heroku
 app.listen(PORT);
