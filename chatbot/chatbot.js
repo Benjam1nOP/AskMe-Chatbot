@@ -1,5 +1,5 @@
 'use strict';
-const dialogflow = require('dialogflow');
+const dialogflow = require('dialogflow');   //including required files
 const structjson = require('./structjson.js');
 const config = require('../config/keys');
 
@@ -13,13 +13,13 @@ const credentials = {
     config.googlePrivateKey,
 };
 
-const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+const sessionClient = new dialogflow.SessionsClient({projectId, credentials}); //initializing session client
+const sessionPath = sessionClient.sessionPath(projectId, sessionId); //creating session path
 
 
 module.exports = {
     textQuery: async function(text, parameters = {}) {
-        let self = module.exports; //accessing another module export method 
+        let self = module.exports; //accessing another module export method // basically calling the handle action function
         const request = {
             session: sessionPath,
             queryInput: {
@@ -28,7 +28,7 @@ module.exports = {
                     languageCode: languageCode, //importing from keys
                 },
             },
-            queryParams: {
+            queryParams: { //sending parameters along with the text query
                 payload: {
                     data: parameters //object received from the client
                 }
@@ -54,9 +54,9 @@ module.exports = {
                 },
             }
         };
-
+        //parameters will be passed in the event object so no query params 
         let responses = await sessionClient.detectIntent(request);
-        responses = await self.handleAction(responses);
+        responses = await self.handleAction(responses); //calling the method
         return responses;
 
     },

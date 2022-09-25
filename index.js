@@ -2,7 +2,7 @@ const express = require('express'); //getting the express module
 const bodyParser =require('body-parser'); //for parsing the data 
 const app = express(); //creating the app
 
-app.use(bodyParser.json()); // for parsing the json data
+app.use(bodyParser.json()); // for parsing the json data it  //waits for request data and then constructs req.body
 
 require('./routes/dialogFlowRoutes')(app); //adding routes to express app
 // request and response
