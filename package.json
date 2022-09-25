@@ -8,7 +8,7 @@
     "npm": "8.15.0"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "backend": "nodemon index.js"
   },
   "author": "Lakshay",
