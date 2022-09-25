@@ -5,7 +5,7 @@ const chatbot = require('../chatbot/chatbot');
 //export is an object that will be exposed as a module
 module.exports = app => {
     app.get('/', (req, res) => {    //route handling using express
-   res.send({'hello': 'bsdk'}) //route handler for get request for the home page so / 
+        res.send({'hello': 'bsdk'}) //route handler for get request for the home page so / 
 }); 
 
 app.post('/api/df_text_query', async (req, res) => {    //route handling using express
