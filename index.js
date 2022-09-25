@@ -7,5 +7,5 @@ app.use(bodyParser.json()); // for parsing the json data
 require('./routes/dialogFlowRoutes')(app); //adding routes to express app
 // request and response
 
-const PORT = process.env.PORT || 5000; //dynamic port binding for heroku
-app.listen(PORT);
+const PORT = process.env.PORT || '5000'; //dynamic port binding for heroku
+app.set("port",PORT);
