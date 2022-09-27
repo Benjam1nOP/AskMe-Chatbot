@@ -12,7 +12,7 @@
     "backend": "nodemon index.js",
     "frontend": "npm run start --prefix client",
     "dev": "concurrently \"npm run backend\"  \"npm run start --prefix client\"",
-    "build": "webpack"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "heroku-run-build-script": false,
   "author": "Lakshay",
