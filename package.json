@@ -14,7 +14,7 @@
     "dev": "concurrently \"npm run backend\"  \"npm run start --prefix client\"",
     "build": "webpack"
   },
-  "heroku-run-build-script": true,
+  "heroku-run-build-script": false,
   "author": "Lakshay",
   "license": "ISC",
   "dependencies": {
