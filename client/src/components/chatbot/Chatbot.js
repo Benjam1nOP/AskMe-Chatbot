@@ -49,14 +49,14 @@ class Chatbot extends Component {
 
             for (let msg of res.data.fulfillmentMessages) {
                 says = {
-                    speaks: 'bot',
+                    speaks: 'AskMe',
                     msg: msg
                 }
                 this.setState({ messages: [...this.state.messages, says]});
             }
         } catch (e) {
             says = {
-                speaks: 'bot',
+                speaks: 'AskMe',
                 msg: {
                     text : {
                         text: "I'm having troubles. I need to terminate. will be back later"
@@ -78,7 +78,7 @@ class Chatbot extends Component {
 
             for (let msg of res.data.fulfillmentMessages) {
                 let says = {
-                    speaks: 'bot',
+                    speaks: 'AskMe',
                     msg: msg
                 }
 
@@ -86,7 +86,7 @@ class Chatbot extends Component {
             }
         } catch (e) {
             let says = {
-                speaks: 'bot',
+                speaks: 'AskMe',
                 msg: {
                     text : {
                         text: "I'm having troubles. I need to terminate. will be back later"
@@ -154,6 +154,7 @@ class Chatbot extends Component {
                 break;
             case 'training_masterclass':
                 this.df_event_query('MASTERCLASS');
+                break;
             default:
                 this.df_text_query(text);
                 break;
@@ -235,8 +236,8 @@ class Chatbot extends Component {
                         </div>
                     </div>
                     <div className=" col s12" >
-                        <input style={{margin: 0, paddingLeft: '1%', paddingRight: '1%', width: '98%'}} ref={(input) => { this.talkInput = input; }} placeholder="type a message:"  onKeyPress={this._handleInputKeyPress} id="user_says" type="text" />
-                    </div>
+                    <input style={{margin: 0, paddingLeft: '1%', paddingRight: '1%', width: '98%'}} ref={(input) => { this.talkInput = input; }} placeholder="type a message:"  onKeyPress={this._handleInputKeyPress} id="user_says" type="text" />
+                </div>
 
                 </div>
             );
