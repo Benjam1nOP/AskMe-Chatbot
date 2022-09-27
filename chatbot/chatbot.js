@@ -1,41 +1,40 @@
 'use strict';
-const dialogflow = require('dialogflow');   //including required files
+const dialogflow = require('dialogflow');
 const structjson = require('./structjson.js');
 const config = require('../config/keys');
+const mongoose = require('mongoose');
 
 const projectId = config.googleProjectID;
 const sessionId = config.dialogFlowSessionID;
 const languageCode = config.dialogFlowSessionLanguageCode;
-
 const credentials = {
     client_email: config.googleClientEmail,
-    private_key: 
+    private_key:
     config.googlePrivateKey,
 };
 
-const sessionClient = new dialogflow.SessionsClient({projectId, credentials}); //initializing session client
-const sessionPath = sessionClient.sessionPath(projectId, sessionId); //creating session path
+const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
+const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
+const Registration = mongoose.model('registration'); 
 
 module.exports = {
     textQuery: async function(text, parameters = {}) {
-        let self = module.exports; //accessing another module export method // basically calling the handle action function
+        let self = module.exports;
         const request = {
             session: sessionPath,
             queryInput: {
                 text: {
                     text: text,
-                    languageCode: languageCode, //importing from keys
+                    languageCode: languageCode,
                 },
             },
-            queryParams: { //sending parameters along with the text query
+            queryParams: {
                 payload: {
-                    data: parameters //object received from the client
+                    data: parameters
                 }
             }
         };
- // code inside then is executed after we get an response
-  // whereas the code after it is executed asynchronously
         let responses = await sessionClient.detectIntent(request);
         responses = await self.handleAction(responses);
         return responses;
@@ -54,18 +53,44 @@ module.exports = {
                 },
             }
         };
-        //parameters will be passed in the event object so no query params 
         let responses = await sessionClient.detectIntent(request);
-        responses = await self.handleAction(responses); //calling the method
+        responses = await self.handleAction(responses);
         return responses;
-
     },
-
-
 
     handleAction: function(responses){
+        let self = module.exports;
+        let queryResult = responses[0].queryResult;
+
+        switch (queryResult.action) {
+            case 'recommendcourses-yes':
+                if (queryResult.allRequiredParamsPresent) {
+                    self.saveRegistration(queryResult.parameters.fields);
+                }
+                break;
+        }
+
+        // console.log(queryResult.action);
+        // console.log(queryResult.allRequiredParamsPresent);
+        // console.log(queryResult.fulfillmentMessages);
+        // console.log(queryResult.parameters.fields);
+
         return responses;
     },
 
-
+    saveRegistration: async function(fields){
+        const registration = new Registration({
+            name: fields.name.stringValue,
+            address: fields.address.stringValue,
+            phone: fields.phone.stringValue,
+            email: fields.email.stringValue,
+            dateSent: Date.now()
+        });
+        try{
+            let reg = await registration.save();
+            console.log(reg);
+        } catch (err){
+            console.log(err);
+        }
+    }
 }
